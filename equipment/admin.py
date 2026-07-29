@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import EquipmentCategory, Brand, Vendor, Equipment
-
+from .models import EquipmentCategory, Brand, Vendor, Equipment, EquipmentAuditLog
 
 @admin.register(EquipmentCategory)
 class EquipmentCategoryAdmin(admin.ModelAdmin):
@@ -30,3 +29,11 @@ class EquipmentAdmin(admin.ModelAdmin):
     list_filter = ('current_status', 'equipment_type', 'category', 'brand')
     search_fields = ('equipment_code', 'equipment_name', 'serial_number')
     readonly_fields = ('equipment_code',)
+
+
+@admin.register(EquipmentAuditLog)
+class EquipmentAuditLogAdmin(admin.ModelAdmin):
+    list_display = ('equipment', 'action', 'performed_by', 'created_at')
+    list_filter = ('action',)
+    search_fields = ('equipment__equipment_code', 'action')
+    autocomplete_fields = ('equipment', 'performed_by')

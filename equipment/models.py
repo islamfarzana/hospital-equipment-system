@@ -116,3 +116,26 @@ class Equipment(models.Model):
 
     def __str__(self):
         return f"{self.equipment_name} ({self.equipment_code})"
+
+class EquipmentAuditLog(models.Model):
+    equipment = models.ForeignKey(
+        Equipment,
+        on_delete=models.CASCADE,
+        related_name='audit_logs',
+    )
+    action = models.CharField(max_length=100)
+    performed_by = models.ForeignKey(
+        'accounts.User',
+        on_delete=models.SET_NULL,
+        null=True,
+        related_name='equipment_actions',
+    )
+    description = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name_plural = 'Equipment Audit Logs'
+
+    def __str__(self):
+        return f"{self.equipment} - {self.action} ({self.created_at:%Y-%m-%d %H:%M})"

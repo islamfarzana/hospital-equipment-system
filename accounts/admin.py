@@ -14,6 +14,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = UserAdmin.add_fieldsets + (
         ('Role Info', {'fields': ('role',)}),
     )
+    search_fields = ('username', 'email')
 
 
 admin.site.register(User, CustomUserAdmin)
