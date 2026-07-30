@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}Maintenance & Calibration{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Maintenance & Calibration</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost mr-2">Dashboard</a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
+    </div>
+</div>
+
+<div class="p-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">All Maintenance Records</h2>
+        <a href="{% url 'maintenance:maintenance_add' %}" class="btn btn-primary">+ Add Record</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success mb-4">
+                <span>{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Equipment</th>
+                    <th>Vendor</th>
+                    <th>Issue</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Cost</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.equipment }}</td>
+                    <td>{{ record.vendor|default:"-" }}</td>
+                    <td>{{ record.issue_description|truncatechars:40 }}</td>
+                    <td>{{ record.start_date }}</td>
+                    <td>{{ record.end_date|default:"-" }}</td>
+                    <td>{{ record.maintenance_cost|default:"-" }}</td>
+                    <td>
+                        {% if record.maintenance_status == 'COMPLETED' %}
+                            <span class="badge badge-success">Completed</span>
+                        {% elif record.maintenance_status == 'IN_PROGRESS' %}
+                            <span class="badge badge-warning">In Progress</span>
+                        {% else %}
+                            <span class="badge badge-neutral">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td class="flex gap-2">
+                        <a href="{% url 'maintenance:maintenance_edit' record.pk %}" class="btn btn-xs btn-outline btn-info">Edit</a>
+                        <a href="{% url 'maintenance:maintenance_delete' record.pk %}" class="btn btn-xs btn-outline btn-error">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center text-base-content/60">No maintenance records found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
