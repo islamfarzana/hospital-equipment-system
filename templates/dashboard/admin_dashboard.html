@@ -15,5 +15,7 @@
 <div class="p-8">
     <h2 class="text-2xl font-semibold mb-4">Welcome, Admin!</h2>
     <p class="text-base-content/60">This is a placeholder. Real dashboard widgets will be added later.</p>
+    <a href="{% url 'wards:ward_list' %}" class="btn btn-primary mt-4">Manage Wards</a>
+    <a href="{% url 'equipment:equipment_list' %}" class="btn btn-secondary mt-4 ml-2">Manage Equipment</a>
 </div>
 {% endblock %}

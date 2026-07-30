@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">{{ title }}</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'equipment:equipment_list' %}" class="btn btn-sm btn-ghost">Back to List</a>
+    </div>
+</div>
+
+<div class="p-8 flex justify-center">
+    <div class="card w-full max-w-2xl bg-base-100 shadow-xl">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for field in form %}
+                        <div class="form-control mb-3">
+                            <label class="label">
+                                <span class="label-text">{{ field.label }}</span>
+                            </label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <span class="text-error text-sm mt-1">{{ field.errors|striptags }}</span>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="submit" class="btn btn-primary w-full mt-2">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
