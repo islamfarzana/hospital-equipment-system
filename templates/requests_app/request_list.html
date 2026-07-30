@@ -1,86 +1,86 @@
 {% extends 'base.html' %}
 {% block title %}Staff Requests{% endblock %}
 
-{% block content %}
-<div class="navbar bg-base-100 shadow-sm px-4">
+{% block navbar %}
+<div class="navbar bg-base-100 shadow-sm px-6">
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">Staff Requests</span>
     </div>
-    <div class="flex-none">
+    <div class="flex-none gap-2">
         {% if request.user.role == 'ADMIN' %}
-            <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost mr-2">Dashboard</a>
+            <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
         {% elif request.user.role == 'BIOMEDICAL_OFFICER' %}
-            <a href="{% url 'dashboard:biomedical_dashboard' %}" class="btn btn-sm btn-ghost mr-2">Dashboard</a>
+            <a href="{% url 'dashboard:biomedical_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
         {% else %}
-            <a href="{% url 'dashboard:ward_staff_dashboard' %}" class="btn btn-sm btn-ghost mr-2">Dashboard</a>
+            <a href="{% url 'dashboard:ward_staff_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
         {% endif %}
         <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
     </div>
 </div>
+{% endblock %}
 
-<div class="p-8">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-semibold">
-            {% if request.user.role == 'WARD_STAFF' %}My Requests{% else %}All Requests{% endif %}
-        </h2>
-        {% if request.user.role == 'WARD_STAFF' %}
-            <a href="{% url 'requests_app:request_add' %}" class="btn btn-primary">+ New Request</a>
-        {% endif %}
-    </div>
-
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success mb-4">
-                <span>{{ message }}</span>
-            </div>
-        {% endfor %}
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <h2 class="text-2xl font-bold">
+        {% if request.user.role == 'WARD_STAFF' %}My Requests{% else %}All Requests{% endif %}
+    </h2>
+    {% if request.user.role == 'WARD_STAFF' %}
+        <a href="{% url 'requests_app:request_add' %}" class="btn btn-primary shadow-md">+ New Request</a>
     {% endif %}
+</div>
 
-    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
-        <table class="table">
-            <thead>
-                <tr>
-                    {% if request.user.role != 'WARD_STAFF' %}<th>Staff</th>{% endif %}
-                    <th>Type</th>
-                    <th>Equipment</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                    {% if request.user.role != 'WARD_STAFF' %}<th>Actions</th>{% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for req in requests %}
-                <tr>
-                    {% if request.user.role != 'WARD_STAFF' %}<td>{{ req.staff }}</td>{% endif %}
-                    <td>{{ req.get_request_type_display }}</td>
-                    <td>{{ req.equipment|default:"-" }}</td>
-                    <td>{{ req.description|truncatechars:40 }}</td>
-                    <td>
-                        {% if req.status == 'PENDING' %}
-                            <span class="badge badge-neutral">Pending</span>
-                        {% elif req.status == 'APPROVED' %}
-                            <span class="badge badge-info">Approved</span>
-                        {% elif req.status == 'REJECTED' %}
-                            <span class="badge badge-error">Rejected</span>
-                        {% else %}
-                            <span class="badge badge-success">Completed</span>
-                        {% endif %}
-                    </td>
-                    <td>{{ req.created_at|date:"d M Y" }}</td>
-                    {% if request.user.role != 'WARD_STAFF' %}
-                    <td>
-                        <a href="{% url 'requests_app:request_review' req.pk %}" class="btn btn-xs btn-outline btn-info">Review</a>
-                    </td>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success shadow-sm mb-4">
+            <span>✅ {{ message }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<div class="overflow-x-auto bg-base-100 rounded-xl shadow-sm">
+    <table class="table">
+        <thead class="bg-base-200">
+            <tr>
+                {% if request.user.role != 'WARD_STAFF' %}<th>Staff</th>{% endif %}
+                <th>Type</th>
+                <th>Equipment</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Created</th>
+                {% if request.user.role != 'WARD_STAFF' %}<th class="text-right">Actions</th>{% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for req in requests %}
+            <tr class="hover">
+                {% if request.user.role != 'WARD_STAFF' %}<td>{{ req.staff }}</td>{% endif %}
+                <td>{{ req.get_request_type_display }}</td>
+                <td>{{ req.equipment|default:"-" }}</td>
+                <td>{{ req.description|truncatechars:40 }}</td>
+                <td>
+                    {% if req.status == 'PENDING' %}
+                        <span class="badge badge-neutral">Pending</span>
+                    {% elif req.status == 'APPROVED' %}
+                        <span class="badge badge-info">Approved</span>
+                    {% elif req.status == 'REJECTED' %}
+                        <span class="badge badge-error">Rejected</span>
+                    {% else %}
+                        <span class="badge badge-success">Completed</span>
                     {% endif %}
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="7" class="text-center text-base-content/60">No requests found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                </td>
+                <td>{{ req.created_at|date:"d M Y" }}</td>
+                {% if request.user.role != 'WARD_STAFF' %}
+                <td class="text-right">
+                    <a href="{% url 'requests_app:request_review' req.pk %}" class="btn btn-xs btn-outline btn-info">Review</a>
+                </td>
+                {% endif %}
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center text-base-content/60 py-8">No requests found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

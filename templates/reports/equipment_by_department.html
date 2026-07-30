@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Equipment by Department{% endblock %}
 
-{% block content %}
-<div class="navbar bg-base-100 shadow-sm px-4">
+{% block navbar %}
+<div class="navbar bg-base-100 shadow-sm px-6">
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">Equipment by Department</span>
     </div>
@@ -10,29 +10,29 @@
         <a href="{% url 'reports:reports_home' %}" class="btn btn-sm btn-ghost">Back to Reports</a>
     </div>
 </div>
+{% endblock %}
 
-<div class="p-8">
-    <div class="flex justify-end mb-4">
-        <a href="?export=csv" class="btn btn-success btn-sm">Export CSV</a>
-    </div>
-    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
-        <table class="table">
-            <thead>
-                <tr><th>Ward</th><th>Equipment</th><th>Allocated Date</th><th>Expected Return</th></tr>
-            </thead>
-            <tbody>
-                {% for alloc in allocations %}
-                <tr>
-                    <td>{{ alloc.ward }}</td>
-                    <td>{{ alloc.equipment }}</td>
-                    <td>{{ alloc.allocated_date }}</td>
-                    <td>{{ alloc.expected_return_date|default:"-" }}</td>
-                </tr>
-                {% empty %}
-                <tr><td colspan="4" class="text-center text-base-content/60">No allocated equipment found.</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+{% block content %}
+<div class="flex justify-end mb-4">
+    <a href="?export=csv" class="btn btn-success btn-sm">Export CSV</a>
+</div>
+<div class="overflow-x-auto bg-base-100 rounded-xl shadow-sm">
+    <table class="table">
+        <thead class="bg-base-200">
+            <tr><th>Ward</th><th>Equipment</th><th>Allocated Date</th><th>Expected Return</th></tr>
+        </thead>
+        <tbody>
+            {% for alloc in allocations %}
+            <tr class="hover">
+                <td>{{ alloc.ward }}</td>
+                <td>{{ alloc.equipment }}</td>
+                <td>{{ alloc.allocated_date }}</td>
+                <td>{{ alloc.expected_return_date|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4" class="text-center text-base-content/60 py-8">No allocated equipment found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

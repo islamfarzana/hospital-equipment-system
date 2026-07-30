@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Ward Staff Dashboard{% endblock %}
 
-{% block content %}
-<div class="navbar bg-base-100 shadow-sm px-4">
+{% block navbar %}
+<div class="navbar bg-base-100 shadow-sm px-6">
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">Ward Staff Dashboard</span>
     </div>
@@ -11,35 +11,35 @@
         <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
     </div>
 </div>
+{% endblock %}
 
-<div class="p-8">
-    <h2 class="text-2xl font-semibold mb-6">My Ward's Equipment</h2>
+{% block content %}
+<h2 class="text-2xl font-semibold mb-6">My Ward's Equipment</h2>
 
-    <div class="overflow-x-auto bg-base-100 rounded-lg shadow mb-8">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Equipment</th>
-                    <th>Allocated Date</th>
-                    <th>Expected Return</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for alloc in my_equipment %}
-                <tr>
-                    <td>{{ alloc.equipment }}</td>
-                    <td>{{ alloc.allocated_date }}</td>
-                    <td>{{ alloc.expected_return_date|default:"-" }}</td>
-                </tr>
-                {% empty %}
-                <tr><td colspan="3" class="text-center text-base-content/60">No equipment allocated to your ward.</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-    <p class="mb-4">You have submitted <span class="font-bold">{{ my_requests_count }}</span> request(s) so far.</p>
-
-    <a href="{% url 'requests_app:request_list' %}" class="btn btn-primary">My Requests</a>
+<div class="overflow-x-auto bg-base-100 rounded-xl shadow-sm mb-8">
+    <table class="table">
+        <thead class="bg-base-200">
+            <tr>
+                <th>Equipment</th>
+                <th>Allocated Date</th>
+                <th>Expected Return</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alloc in my_equipment %}
+            <tr class="hover">
+                <td>{{ alloc.equipment }}</td>
+                <td>{{ alloc.allocated_date }}</td>
+                <td>{{ alloc.expected_return_date|default:"-" }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3" class="text-center text-base-content/60 py-6">No equipment allocated to your ward.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
+
+<p class="mb-4">You have submitted <span class="font-bold">{{ my_requests_count }}</span> request(s) so far.</p>
+
+<a href="{% url 'requests_app:request_list' %}" class="btn btn-primary">My Requests</a>
 {% endblock %}

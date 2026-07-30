@@ -3,13 +3,33 @@ from django.contrib import messages
 from accounts.decorators import role_required
 from .models import Equipment, EquipmentAuditLog
 from .forms import EquipmentForm
+from django.db import models
 
 
 @role_required('ADMIN', 'BIOMEDICAL_OFFICER')
 def equipment_list(request):
     equipment_qs = Equipment.objects.select_related('category', 'brand', 'vendor').all()
-    return render(request, 'equipment/equipment_list.html', {'equipment_list': equipment_qs})
 
+    search_query = request.GET.get('q', '').strip()
+    status_filter = request.GET.get('status', '').strip()
+
+    if search_query:
+        equipment_qs = equipment_qs.filter(
+            models.Q(equipment_name__icontains=search_query) |
+            models.Q(equipment_code__icontains=search_query) |
+            models.Q(serial_number__icontains=search_query)
+        )
+
+    if status_filter:
+        equipment_qs = equipment_qs.filter(current_status=status_filter)
+
+    context = {
+        'equipment_list': equipment_qs,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'status_choices': Equipment.Status.choices,
+    }
+    return render(request, 'equipment/equipment_list.html', context)
 
 @role_required('ADMIN', 'BIOMEDICAL_OFFICER')
 def equipment_add(request):

@@ -1,67 +1,67 @@
 {% extends 'base.html' %}
 {% block title %}Wards{% endblock %}
 
-{% block content %}
-<div class="navbar bg-base-100 shadow-sm px-4">
+{% block navbar %}
+<div class="navbar bg-base-100 shadow-sm px-6">
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">Ward Management</span>
     </div>
-    <div class="flex-none">
-        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost mr-2">Dashboard</a>
+    <div class="flex-none gap-2">
+        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
         <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
     </div>
 </div>
+{% endblock %}
 
-<div class="p-8">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-semibold">All Wards</h2>
-        <a href="{% url 'wards:ward_add' %}" class="btn btn-primary">+ Add Ward</a>
-    </div>
+{% block content %}
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+    <h2 class="text-2xl font-bold">All Wards</h2>
+    <a href="{% url 'wards:ward_add' %}" class="btn btn-primary shadow-md">+ Add Ward</a>
+</div>
 
-    {% if messages %}
-        {% for message in messages %}
-            <div class="alert alert-success mb-4">
-                <span>{{ message }}</span>
-            </div>
-        {% endfor %}
-    {% endif %}
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success shadow-sm mb-4">
+            <span>✅ {{ message }}</span>
+        </div>
+    {% endfor %}
+{% endif %}
 
-    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Ward Code</th>
-                    <th>Ward Name</th>
-                    <th>Head of Department</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for ward in wards %}
-                <tr>
-                    <td>{{ ward.ward_code }}</td>
-                    <td>{{ ward.ward_name }}</td>
-                    <td>{{ ward.head_of_department|default:"-" }}</td>
-                    <td>
-                        {% if ward.status == 'ACTIVE' %}
-                            <span class="badge badge-success">Active</span>
-                        {% else %}
-                            <span class="badge badge-neutral">Inactive</span>
-                        {% endif %}
-                    </td>
-                    <td class="flex gap-2">
-                        <a href="{% url 'wards:ward_edit' ward.pk %}" class="btn btn-xs btn-outline btn-info">Edit</a>
-                        <a href="{% url 'wards:ward_delete' ward.pk %}" class="btn btn-xs btn-outline btn-error">Delete</a>
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="5" class="text-center text-base-content/60">No wards found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+<div class="overflow-x-auto bg-base-100 rounded-xl shadow-sm">
+    <table class="table">
+        <thead class="bg-base-200">
+            <tr>
+                <th>Ward Code</th>
+                <th>Ward Name</th>
+                <th>Head of Department</th>
+                <th>Status</th>
+                <th class="text-right">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ward in wards %}
+            <tr class="hover">
+                <td class="font-mono text-sm">{{ ward.ward_code }}</td>
+                <td class="font-medium">{{ ward.ward_name }}</td>
+                <td>{{ ward.head_of_department|default:"-" }}</td>
+                <td>
+                    {% if ward.status == 'ACTIVE' %}
+                        <span class="badge badge-success">Active</span>
+                    {% else %}
+                        <span class="badge badge-neutral">Inactive</span>
+                    {% endif %}
+                </td>
+                <td class="text-right">
+                    <a href="{% url 'wards:ward_edit' ward.pk %}" class="btn btn-xs btn-outline btn-info mr-1">Edit</a>
+                    <a href="{% url 'wards:ward_delete' ward.pk %}" class="btn btn-xs btn-outline btn-error">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-base-content/60 py-8">No wards found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </div>
 {% endblock %}

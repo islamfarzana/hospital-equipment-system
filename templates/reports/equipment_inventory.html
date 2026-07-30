@@ -1,44 +1,44 @@
 {% extends 'base.html' %}
-{% block title %}Equipment Inventory Report{% endblock %}
+{% block title %}Reports{% endblock %}
 
-{% block content %}
-<div class="navbar bg-base-100 shadow-sm px-4">
+{% block navbar %}
+<div class="navbar bg-base-100 shadow-sm px-6">
     <div class="flex-1">
-        <span class="text-xl font-bold text-primary">Equipment Inventory Report</span>
+        <span class="text-xl font-bold text-primary">Reports</span>
     </div>
-    <div class="flex-none">
-        <a href="{% url 'reports:reports_home' %}" class="btn btn-sm btn-ghost">Back to Reports</a>
+    <div class="flex-none gap-2">
+        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
     </div>
 </div>
+{% endblock %}
 
-<div class="p-8">
-    <div class="flex justify-end mb-4">
-        <a href="?export=csv" class="btn btn-success btn-sm">Export CSV</a>
-    </div>
-    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Code</th><th>Name</th><th>Type</th><th>Category</th><th>Brand</th><th>Serial No.</th><th>Status</th><th>Cost</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in equipment_list %}
-                <tr>
-                    <td>{{ item.equipment_code }}</td>
-                    <td>{{ item.equipment_name }}</td>
-                    <td>{{ item.get_equipment_type_display }}</td>
-                    <td>{{ item.category }}</td>
-                    <td>{{ item.brand|default:"-" }}</td>
-                    <td>{{ item.serial_number }}</td>
-                    <td>{{ item.current_status }}</td>
-                    <td>{{ item.purchase_cost }}</td>
-                </tr>
-                {% empty %}
-                <tr><td colspan="8" class="text-center text-base-content/60">No equipment found.</td></tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+{% block content %}
+<h2 class="text-2xl font-bold mb-6">Available Reports</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <a href="{% url 'reports:equipment_inventory' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
+        <h3 class="font-semibold text-lg">Equipment Inventory</h3>
+        <p class="text-sm text-base-content/60">Full list of all equipment</p>
+    </a>
+    <a href="{% url 'reports:equipment_by_department' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
+        <h3 class="font-semibold text-lg">Equipment by Department</h3>
+        <p class="text-sm text-base-content/60">Currently allocated equipment per ward</p>
+    </a>
+    <a href="{% url 'reports:maintenance_costs' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
+        <h3 class="font-semibold text-lg">Maintenance & Calibration Costs</h3>
+        <p class="text-sm text-base-content/60">All maintenance records and costs</p>
+    </a>
+    <a href="{% url 'reports:allocation_history' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
+        <h3 class="font-semibold text-lg">Equipment Allocation History</h3>
+        <p class="text-sm text-base-content/60">Full allocation/return history</p>
+    </a>
+    <a href="{% url 'reports:faulty_decommissioned' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
+        <h3 class="font-semibold text-lg">Faulty/Decommissioned Equipment</h3>
+        <p class="text-sm text-base-content/60">Equipment needing attention</p>
+    </a>
+    <a href="{% url 'reports:calibration_due' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
+        <h3 class="font-semibold text-lg">Calibration Due Report</h3>
+        <p class="text-sm text-base-content/60">Equipment due for calibration soon</p>
+    </a>
 </div>
 {% endblock %}

@@ -8,7 +8,65 @@
     <link href="{% static 'css/dist/styles.css' %}" rel="stylesheet">
 </head>
 <body class="min-h-screen bg-base-200">
-    {% block content %}
-    {% endblock %}
+
+<div class="drawer lg:drawer-open">
+    <input id="app-drawer" type="checkbox" class="drawer-toggle" />
+
+    <div class="drawer-content flex flex-col">
+        <!-- Mobile top bar with hamburger -->
+        <div class="navbar bg-base-100 shadow-sm px-4 lg:hidden">
+            <label for="app-drawer" class="btn btn-square btn-ghost">
+                ☰
+            </label>
+            <span class="text-lg font-bold text-primary ml-2">HEMS</span>
+        </div>
+
+        {% block navbar %}{% endblock %}
+
+        <main class="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+
+    <div class="drawer-side z-20">
+        <label for="app-drawer" class="drawer-overlay"></label>
+        <ul class="menu bg-base-100 text-base-content min-h-full w-64 p-4 gap-1">
+            <li class="mb-4">
+                <span class="text-xl font-bold text-primary px-2">🏥 HEMS</span>
+            </li>
+
+            {% if request.user.is_authenticated %}
+                {% if request.user.role == 'ADMIN' %}
+                    <li><a href="{% url 'dashboard:admin_dashboard' %}">📊 Dashboard</a></li>
+                    <li><a href="{% url 'wards:ward_list' %}">🏢 Wards</a></li>
+                    <li><a href="{% url 'equipment:equipment_list' %}">🩺 Equipment</a></li>
+                    <li><a href="{% url 'allocations:allocation_list' %}">🔄 Allocations</a></li>
+                    <li><a href="{% url 'maintenance:maintenance_list' %}">🔧 Maintenance</a></li>
+                    <li><a href="{% url 'requests_app:request_list' %}">📝 Staff Requests</a></li>
+                    <li><a href="{% url 'equipment:audit_log_list' %}">📜 Audit Logs</a></li>
+                    <li><a href="{% url 'reports:reports_home' %}">📈 Reports</a></li>
+                {% elif request.user.role == 'BIOMEDICAL_OFFICER' %}
+                    <li><a href="{% url 'dashboard:biomedical_dashboard' %}">📊 Dashboard</a></li>
+                    <li><a href="{% url 'equipment:equipment_list' %}">🩺 Equipment</a></li>
+                    <li><a href="{% url 'allocations:allocation_list' %}">🔄 Allocations</a></li>
+                    <li><a href="{% url 'maintenance:maintenance_list' %}">🔧 Maintenance</a></li>
+                    <li><a href="{% url 'requests_app:request_list' %}">📝 Staff Requests</a></li>
+                    <li><a href="{% url 'reports:reports_home' %}">📈 Reports</a></li>
+                {% else %}
+                    <li><a href="{% url 'dashboard:ward_staff_dashboard' %}">📊 Dashboard</a></li>
+                    <li><a href="{% url 'requests_app:request_list' %}">📝 My Requests</a></li>
+                {% endif %}
+
+                <div class="divider"></div>
+                <li>
+                    <span class="text-sm text-base-content/60 px-2">{{ request.user.username }} ({{ request.user.get_role_display }})</span>
+                </li>
+                <li><a href="{% url 'accounts:logout' %}">🚪 Logout</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
 </body>
 </html>
