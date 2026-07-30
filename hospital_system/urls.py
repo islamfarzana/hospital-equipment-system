@@ -25,4 +25,5 @@ urlpatterns = [
     path('equipment/', include('equipment.urls')),
     path('allocations/', include('allocations.urls')),
     path('maintenance/', include('maintenance.urls')),
+    path('requests/', include('requests_app.urls')),
 ]

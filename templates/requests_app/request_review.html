@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Review Request{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Review Request</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'requests_app:request_list' %}" class="btn btn-sm btn-ghost">Back to List</a>
+    </div>
+</div>
+
+<div class="p-8 flex justify-center">
+    <div class="card w-full max-w-lg bg-base-100 shadow-xl">
+        <div class="card-body">
+            <p><span class="font-semibold">Staff:</span> {{ staff_request.staff }}</p>
+            <p><span class="font-semibold">Type:</span> {{ staff_request.get_request_type_display }}</p>
+            <p><span class="font-semibold">Equipment:</span> {{ staff_request.equipment|default:"-" }}</p>
+            <p class="mb-4"><span class="font-semibold">Description:</span> {{ staff_request.description }}</p>
+
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-control mb-3">
+                        <label class="label">
+                            <span class="label-text">{{ field.label }}</span>
+                        </label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-full mt-2">Update Status</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
