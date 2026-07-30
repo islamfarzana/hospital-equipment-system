@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Equipment Allocations{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Equipment Allocations</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost mr-2">Dashboard</a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
+    </div>
+</div>
+
+<div class="p-8">
+    <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-semibold">All Allocations</h2>
+        <a href="{% url 'allocations:allocation_add' %}" class="btn btn-primary">+ Allocate Equipment</a>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success mb-4">
+                <span>{{ message }}</span>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Equipment</th>
+                    <th>Ward</th>
+                    <th>Allocated Date</th>
+                    <th>Expected Return</th>
+                    <th>Returned Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for allocation in allocations %}
+                <tr>
+                    <td>{{ allocation.equipment }}</td>
+                    <td>{{ allocation.ward }}</td>
+                    <td>{{ allocation.allocated_date }}</td>
+                    <td>{{ allocation.expected_return_date|default:"-" }}</td>
+                    <td>{{ allocation.returned_date|default:"-" }}</td>
+                    <td>
+                        {% if allocation.status == 'ALLOCATED' %}
+                            <span class="badge badge-info">Allocated</span>
+                        {% else %}
+                            <span class="badge badge-success">Returned</span>
+                        {% endif %}
+                    </td>
+                    <td class="flex gap-2">
+                        <a href="{% url 'allocations:allocation_edit' allocation.pk %}" class="btn btn-xs btn-outline btn-info">Edit</a>
+                        <a href="{% url 'allocations:allocation_delete' allocation.pk %}" class="btn btn-xs btn-outline btn-error">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-base-content/60">No allocations found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
