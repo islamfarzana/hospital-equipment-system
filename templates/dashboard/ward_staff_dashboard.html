@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Ward Staff Dashboard{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Ward Staff Dashboard</span>
+    </div>
+    <div class="flex-none">
+        <span class="mr-4">Welcome, {{ request.user.username }}</span>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
+    </div>
+</div>
+
+<div class="p-8">
+    <h2 class="text-2xl font-semibold mb-4">Welcome, Ward Staff!</h2>
+    <p class="text-base-content/60">This is a placeholder. Real dashboard widgets will be added later.</p>
+</div>
+{% endblock %}
