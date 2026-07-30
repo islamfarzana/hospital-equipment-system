@@ -26,4 +26,5 @@ urlpatterns = [
     path('allocations/', include('allocations.urls')),
     path('maintenance/', include('maintenance.urls')),
     path('requests/', include('requests_app.urls')),
+    path('reports/', include('reports.urls')),
 ]

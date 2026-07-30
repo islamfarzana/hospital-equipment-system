@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Maintenance & Calibration Costs{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Maintenance & Calibration Costs</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'reports:reports_home' %}" class="btn btn-sm btn-ghost">Back to Reports</a>
+    </div>
+</div>
+
+<div class="p-8">
+    <div class="flex justify-end mb-4">
+        <a href="?export=csv" class="btn btn-success btn-sm">Export CSV</a>
+    </div>
+    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
+        <table class="table">
+            <thead>
+                <tr><th>Equipment</th><th>Vendor</th><th>Issue</th><th>Cost</th><th>Start</th><th>End</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for record in records %}
+                <tr>
+                    <td>{{ record.equipment }}</td>
+                    <td>{{ record.vendor|default:"-" }}</td>
+                    <td>{{ record.issue_description|truncatechars:40 }}</td>
+                    <td>{{ record.maintenance_cost|default:"-" }}</td>
+                    <td>{{ record.start_date }}</td>
+                    <td>{{ record.end_date|default:"-" }}</td>
+                    <td>{{ record.maintenance_status }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="text-center text-base-content/60">No records found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

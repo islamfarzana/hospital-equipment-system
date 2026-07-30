@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Reports</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost mr-2">Dashboard</a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
+    </div>
+</div>
+
+<div class="p-8">
+    <h2 class="text-2xl font-semibold mb-6">Available Reports</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <a href="{% url 'reports:equipment_inventory' %}" class="card bg-base-100 shadow hover:shadow-lg transition p-6">
+            <h3 class="font-semibold text-lg">Equipment Inventory</h3>
+            <p class="text-sm text-base-content/60">Full list of all equipment</p>
+        </a>
+        <a href="{% url 'reports:equipment_by_department' %}" class="card bg-base-100 shadow hover:shadow-lg transition p-6">
+            <h3 class="font-semibold text-lg">Equipment by Department</h3>
+            <p class="text-sm text-base-content/60">Currently allocated equipment per ward</p>
+        </a>
+        <a href="{% url 'reports:maintenance_costs' %}" class="card bg-base-100 shadow hover:shadow-lg transition p-6">
+            <h3 class="font-semibold text-lg">Maintenance & Calibration Costs</h3>
+            <p class="text-sm text-base-content/60">All maintenance records and costs</p>
+        </a>
+        <a href="{% url 'reports:allocation_history' %}" class="card bg-base-100 shadow hover:shadow-lg transition p-6">
+            <h3 class="font-semibold text-lg">Equipment Allocation History</h3>
+            <p class="text-sm text-base-content/60">Full allocation/return history</p>
+        </a>
+        <a href="{% url 'reports:faulty_decommissioned' %}" class="card bg-base-100 shadow hover:shadow-lg transition p-6">
+            <h3 class="font-semibold text-lg">Faulty/Decommissioned Equipment</h3>
+            <p class="text-sm text-base-content/60">Equipment needing attention</p>
+        </a>
+        <a href="{% url 'reports:calibration_due' %}" class="card bg-base-100 shadow hover:shadow-lg transition p-6">
+            <h3 class="font-semibold text-lg">Calibration Due Report</h3>
+            <p class="text-sm text-base-content/60">Equipment due for calibration soon</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'maintenance',
     'requests_app',
     'dashboard',
+    'reports',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"

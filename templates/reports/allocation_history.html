@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Allocation History{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Equipment Allocation History</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'reports:reports_home' %}" class="btn btn-sm btn-ghost">Back to Reports</a>
+    </div>
+</div>
+
+<div class="p-8">
+    <div class="flex justify-end mb-4">
+        <a href="?export=csv" class="btn btn-success btn-sm">Export CSV</a>
+    </div>
+    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
+        <table class="table">
+            <thead>
+                <tr><th>Equipment</th><th>Ward</th><th>Allocated Date</th><th>Returned Date</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                {% for alloc in allocations %}
+                <tr>
+                    <td>{{ alloc.equipment }}</td>
+                    <td>{{ alloc.ward }}</td>
+                    <td>{{ alloc.allocated_date }}</td>
+                    <td>{{ alloc.returned_date|default:"-" }}</td>
+                    <td>{{ alloc.status }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center text-base-content/60">No allocation history found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
