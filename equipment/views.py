@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from accounts.decorators import role_required
-from .models import Equipment
+from .models import Equipment, EquipmentAuditLog
 from .forms import EquipmentForm
 
 
@@ -46,3 +46,9 @@ def equipment_delete(request, pk):
         messages.success(request, 'Equipment deleted successfully.')
         return redirect('equipment:equipment_list')
     return render(request, 'equipment/equipment_confirm_delete.html', {'equipment': equipment})
+
+
+@role_required('ADMIN', 'BIOMEDICAL_OFFICER')
+def audit_log_list(request):
+    logs = EquipmentAuditLog.objects.select_related('equipment', 'performed_by').all()
+    return render(request, 'equipment/audit_log_list.html', {'logs': logs})

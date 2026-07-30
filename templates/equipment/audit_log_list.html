@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Equipment Audit Logs{% endblock %}
+
+{% block content %}
+<div class="navbar bg-base-100 shadow-sm px-4">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Equipment Audit Logs</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'equipment:equipment_list' %}" class="btn btn-sm btn-ghost mr-2">Back to Equipment</a>
+        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
+    </div>
+</div>
+
+<div class="p-8">
+    <h2 class="text-2xl font-semibold mb-6">All Audit Logs</h2>
+
+    <div class="overflow-x-auto bg-base-100 rounded-lg shadow">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Equipment</th>
+                    <th>Action</th>
+                    <th>Performed By</th>
+                    <th>Description</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                <tr>
+                    <td>{{ log.equipment }}</td>
+                    <td>{{ log.action }}</td>
+                    <td>{{ log.performed_by|default:"-" }}</td>
+                    <td>{{ log.description|default:"-" }}</td>
+                    <td>{{ log.created_at|date:"d M Y, h:i A" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-base-content/60">No audit logs found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
