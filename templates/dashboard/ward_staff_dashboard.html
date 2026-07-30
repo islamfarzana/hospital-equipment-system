@@ -13,8 +13,33 @@
 </div>
 
 <div class="p-8">
-    <h2 class="text-2xl font-semibold mb-4">Welcome, Ward Staff!</h2>
-    <p class="text-base-content/60">This is a placeholder. Real dashboard widgets will be added later.</p>
-    <a href="{% url 'requests_app:request_list' %}" class="btn btn-primary mt-4">My Requests</a>
+    <h2 class="text-2xl font-semibold mb-6">My Ward's Equipment</h2>
+
+    <div class="overflow-x-auto bg-base-100 rounded-lg shadow mb-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Equipment</th>
+                    <th>Allocated Date</th>
+                    <th>Expected Return</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alloc in my_equipment %}
+                <tr>
+                    <td>{{ alloc.equipment }}</td>
+                    <td>{{ alloc.allocated_date }}</td>
+                    <td>{{ alloc.expected_return_date|default:"-" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="3" class="text-center text-base-content/60">No equipment allocated to your ward.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <p class="mb-4">You have submitted <span class="font-bold">{{ my_requests_count }}</span> request(s) so far.</p>
+
+    <a href="{% url 'requests_app:request_list' %}" class="btn btn-primary">My Requests</a>
 </div>
 {% endblock %}

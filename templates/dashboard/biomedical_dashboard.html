@@ -13,7 +13,32 @@
 </div>
 
 <div class="p-8">
-    <h2 class="text-2xl font-semibold mb-4">Welcome, Biomedical Officer!</h2>
-    <p class="text-base-content/60">This is a placeholder. Real dashboard widgets will be added later.</p>
+    <h2 class="text-2xl font-semibold mb-6">Overview</h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Today's Allocations</div>
+            <div class="stat-value text-info">{{ todays_allocations }}</div>
+        </div>
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Pending Requests</div>
+            <div class="stat-value text-warning">{{ pending_requests }}</div>
+        </div>
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Due for Return</div>
+            <div class="stat-value text-error">{{ due_for_return }}</div>
+        </div>
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Calibration Due Soon</div>
+            <div class="stat-value text-secondary">{{ calibration_due_soon }}</div>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+        <a href="{% url 'equipment:equipment_list' %}" class="btn btn-secondary">Manage Equipment</a>
+        <a href="{% url 'allocations:allocation_list' %}" class="btn btn-accent">Manage Allocations</a>
+        <a href="{% url 'maintenance:maintenance_list' %}" class="btn btn-warning">Manage Maintenance</a>
+        <a href="{% url 'requests_app:request_list' %}" class="btn btn-info">View Staff Requests</a>
+    </div>
 </div>
 {% endblock %}

@@ -13,13 +13,68 @@
 </div>
 
 <div class="p-8">
-    <h2 class="text-2xl font-semibold mb-4">Welcome, Admin!</h2>
-    <p class="text-base-content/60">This is a placeholder. Real dashboard widgets will be added later.</p>
-    <a href="{% url 'wards:ward_list' %}" class="btn btn-primary mt-4">Manage Wards</a>
-    <a href="{% url 'equipment:equipment_list' %}" class="btn btn-secondary mt-4 ml-2">Manage Equipment</a>
-    <a href="{% url 'allocations:allocation_list' %}" class="btn btn-accent mt-4 ml-2">Manage Allocations</a> 
-    <a href="{% url 'maintenance:maintenance_list' %}" class="btn btn-warning mt-4 ml-2">Manage Maintenance</a>
-    <a href="{% url 'requests_app:request_list' %}" class="btn btn-info mt-4 ml-2">View Staff Requests</a>
+    <h2 class="text-2xl font-semibold mb-6">Overview</h2>
 
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Total Equipment</div>
+            <div class="stat-value text-primary">{{ total_equipment }}</div>
+        </div>
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Available</div>
+            <div class="stat-value text-success">{{ available_equipment }}</div>
+        </div>
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Allocated</div>
+            <div class="stat-value text-info">{{ allocated_equipment }}</div>
+        </div>
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Under Maintenance</div>
+            <div class="stat-value text-warning">{{ maintenance_equipment }}</div>
+        </div>
+        <div class="stat bg-base-100 rounded-lg shadow">
+            <div class="stat-title">Faulty</div>
+            <div class="stat-value text-error">{{ faulty_equipment }}</div>
+        </div>
+    </div>
+
+    <div class="stat bg-base-100 rounded-lg shadow max-w-xs mb-8">
+        <div class="stat-title">Total Staff</div>
+        <div class="stat-value">{{ total_staff }}</div>
+    </div>
+
+    <h3 class="text-xl font-semibold mb-4">Recent Requests</h3>
+    <div class="overflow-x-auto bg-base-100 rounded-lg shadow mb-8">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Staff</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in recent_requests %}
+                <tr>
+                    <td>{{ req.staff }}</td>
+                    <td>{{ req.get_request_type_display }}</td>
+                    <td>{{ req.status }}</td>
+                    <td>{{ req.created_at|date:"d M Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="4" class="text-center text-base-content/60">No requests yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex flex-wrap gap-2">
+        <a href="{% url 'wards:ward_list' %}" class="btn btn-primary">Manage Wards</a>
+        <a href="{% url 'equipment:equipment_list' %}" class="btn btn-secondary">Manage Equipment</a>
+        <a href="{% url 'allocations:allocation_list' %}" class="btn btn-accent">Manage Allocations</a>
+        <a href="{% url 'maintenance:maintenance_list' %}" class="btn btn-warning">Manage Maintenance</a>
+        <a href="{% url 'requests_app:request_list' %}" class="btn btn-info">View Staff Requests</a>
+    </div>
 </div>
 {% endblock %}
