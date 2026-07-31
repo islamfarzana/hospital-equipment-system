@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Delete Staff{% endblock %}
+
+{% block navbar %}
+<div class="navbar bg-base-100 shadow-sm px-6">
+    <div class="flex-1">
+        <span class="text-xl font-bold text-primary">Delete Staff</span>
+    </div>
+    <div class="flex-none">
+        <a href="{% url 'accounts:staff_list' %}" class="btn btn-sm btn-ghost">Back to List</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="flex justify-center">
+    <div class="card w-full max-w-md bg-base-100 shadow-sm">
+        <div class="card-body">
+            <h2 class="text-lg font-semibold">Are you sure?</h2>
+            <p class="text-base-content/70 mb-4">
+                Do you really want to delete
+                <span class="font-bold">"{{ staff.first_name }} {{ staff.last_name }} ({{ staff.staff_code }})"</span>?
+                This action cannot be undone.
+            </p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="flex gap-3">
+                    <button type="submit" class="btn btn-error flex-1">Yes, Delete</button>
+                    <a href="{% url 'accounts:staff_list' %}" class="btn btn-ghost flex-1">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

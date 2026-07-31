@@ -28,6 +28,7 @@
 {% if request.user.role == 'ADMIN' %}
 <li><a href="{% url 'dashboard:admin_dashboard' %}" class="rounded-lg {% if '/dashboard/' in request.path %}bg-primary text-primary-content{% endif %}">📊 Dashboard</a></li>
 <li><a href="{% url 'wards:ward_list' %}" class="rounded-lg {% if '/wards/' in request.path %}bg-primary text-primary-content{% endif %}">🏢 Wards</a></li>
+<li><a href="{% url 'accounts:staff_list' %}" class="rounded-lg {% if '/accounts/staff/' in request.path %}bg-primary text-primary-content{% endif %}">👥 Staff</a></li>
 <li><a href="{% url 'equipment:equipment_list' %}" class="rounded-lg {% if '/equipment/' in request.path and 'audit-logs' not in request.path %}bg-primary text-primary-content{% endif %}">🩺 Equipment</a></li>
 <li><a href="{% url 'allocations:allocation_list' %}" class="rounded-lg {% if '/allocations/' in request.path %}bg-primary text-primary-content{% endif %}">🔄 Allocations</a></li>
 <li><a href="{% url 'maintenance:maintenance_list' %}" class="rounded-lg {% if '/maintenance/' in request.path %}bg-primary text-primary-content{% endif %}">🔧 Maintenance</a></li>
