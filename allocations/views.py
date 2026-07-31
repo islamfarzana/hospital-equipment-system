@@ -3,13 +3,20 @@ from django.contrib import messages
 from accounts.decorators import role_required
 from .models import EquipmentAllocation
 from .forms import EquipmentAllocationForm
+from django.db import models
 
 
 @role_required('ADMIN', 'BIOMEDICAL_OFFICER')
 def allocation_list(request):
     allocations = EquipmentAllocation.objects.select_related('equipment', 'ward').all()
-    return render(request, 'allocations/allocation_list.html', {'allocations': allocations})
-
+    search_query = request.GET.get('q', '').strip()
+    if search_query:
+        allocations = allocations.filter(
+            models.Q(equipment__equipment_name__icontains=search_query) |
+            models.Q(equipment__equipment_code__icontains=search_query) |
+            models.Q(ward__ward_name__icontains=search_query)
+        )
+    return render(request, 'allocations/allocation_list.html', {'allocations': allocations, 'search_query': search_query})
 
 @role_required('ADMIN', 'BIOMEDICAL_OFFICER')
 def allocation_add(request):

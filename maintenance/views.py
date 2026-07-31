@@ -3,13 +3,20 @@ from django.contrib import messages
 from accounts.decorators import role_required
 from .models import MaintenanceRecord
 from .forms import MaintenanceRecordForm
+from django.db import models
 
 
 @role_required('ADMIN', 'BIOMEDICAL_OFFICER')
 def maintenance_list(request):
     records = MaintenanceRecord.objects.select_related('equipment', 'vendor').all()
-    return render(request, 'maintenance/maintenance_list.html', {'records': records})
-
+    search_query = request.GET.get('q', '').strip()
+    if search_query:
+        records = records.filter(
+            models.Q(equipment__equipment_name__icontains=search_query) |
+            models.Q(equipment__equipment_code__icontains=search_query) |
+            models.Q(issue_description__icontains=search_query)
+        )
+    return render(request, 'maintenance/maintenance_list.html', {'records': records, 'search_query': search_query})
 
 @role_required('ADMIN', 'BIOMEDICAL_OFFICER')
 def maintenance_add(request):

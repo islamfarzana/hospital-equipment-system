@@ -6,10 +6,6 @@
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">Equipment Allocations</span>
     </div>
-    <div class="flex-none gap-2">
-        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
-        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
-    </div>
 </div>
 {% endblock %}
 
@@ -20,12 +16,21 @@
 </div>
 
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-success shadow-sm mb-4">
-            <span>✅ {{ message }}</span>
-        </div>
-    {% endfor %}
+{% for message in messages %}
+<div class="alert alert-success shadow-sm mb-4">
+    <span>✅ {{ message }}</span>
+</div>
+{% endfor %}
 {% endif %}
+
+<form method="get" class="flex gap-3 mb-6 bg-base-100 p-4 rounded-xl shadow-sm">
+    <input type="text" name="q" value="{{ search_query }}" placeholder="Search by equipment or ward..."
+        class="input input-bordered w-full max-w-sm">
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if search_query %}
+    <a href="{% url 'allocations:allocation_list' %}" class="btn btn-ghost">Clear</a>
+    {% endif %}
+</form>
 
 <div class="overflow-x-auto bg-base-100 rounded-xl shadow-sm">
     <table class="table">
@@ -50,14 +55,16 @@
                 <td>{{ allocation.returned_date|default:"-" }}</td>
                 <td>
                     {% if allocation.status == 'ALLOCATED' %}
-                        <span class="badge badge-info">Allocated</span>
+                    <span class="badge badge-info">Allocated</span>
                     {% else %}
-                        <span class="badge badge-success">Returned</span>
+                    <span class="badge badge-success">Returned</span>
                     {% endif %}
                 </td>
                 <td class="text-right">
-                    <a href="{% url 'allocations:allocation_edit' allocation.pk %}" class="btn btn-xs btn-outline btn-info mr-1">Edit</a>
-                    <a href="{% url 'allocations:allocation_delete' allocation.pk %}" class="btn btn-xs btn-outline btn-error">Delete</a>
+                    <div class="flex gap-2 justify-end">
+                        <a href="..." class="btn btn-xs btn-outline btn-info">Edit</a>
+                        <a href="..." class="btn btn-xs btn-outline btn-error">Delete</a>
+                    </div>
                 </td>
             </tr>
             {% empty %}

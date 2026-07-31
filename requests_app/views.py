@@ -4,6 +4,7 @@ from django.utils import timezone
 from accounts.decorators import role_required
 from .models import StaffRequest
 from .forms import StaffRequestForm, StaffRequestReviewForm
+from django.db import models
 
 
 @role_required('ADMIN', 'BIOMEDICAL_OFFICER', 'WARD_STAFF')
@@ -13,8 +14,15 @@ def request_list(request):
         requests_qs = StaffRequest.objects.filter(staff__user=user)
     else:
         requests_qs = StaffRequest.objects.select_related('staff', 'equipment').all()
+        search_query = request.GET.get('q', '').strip()
+        if search_query:
+            requests_qs = requests_qs.filter(
+                models.Q(staff__first_name__icontains=search_query) |
+                models.Q(staff__last_name__icontains=search_query) |
+                models.Q(description__icontains=search_query)
+            )
+        return render(request, 'requests_app/request_list.html', {'requests': requests_qs, 'search_query': search_query})
     return render(request, 'requests_app/request_list.html', {'requests': requests_qs})
-
 
 @role_required('WARD_STAFF')
 def request_add(request):

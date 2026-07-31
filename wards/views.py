@@ -3,12 +3,19 @@ from django.contrib import messages
 from accounts.decorators import role_required
 from .models import Ward
 from .forms import WardForm
+from django.db import models
 
 
 @role_required('ADMIN')
 def ward_list(request):
     wards = Ward.objects.all()
-    return render(request, 'wards/ward_list.html', {'wards': wards})
+    search_query = request.GET.get('q', '').strip()
+    if search_query:
+        wards = wards.filter(
+            models.Q(ward_name__icontains=search_query) |
+            models.Q(ward_code__icontains=search_query)
+        )
+    return render(request, 'wards/ward_list.html', {'wards': wards, 'search_query': search_query})
 
 
 @role_required('ADMIN')

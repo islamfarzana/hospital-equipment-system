@@ -6,10 +6,6 @@
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">🏥 Equipment Management</span>
     </div>
-    <div class="flex-none gap-2">
-        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
-        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
-    </div>
 </div>
 {% endblock %}
 
@@ -20,31 +16,26 @@
 </div>
 
 {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-success shadow-sm mb-4">
-            <span>✅ {{ message }}</span>
-        </div>
-    {% endfor %}
+{% for message in messages %}
+<div class="alert alert-success shadow-sm mb-4">
+    <span>✅ {{ message }}</span>
+</div>
+{% endfor %}
 {% endif %}
 
 <!-- Search & Filter Bar -->
 <form method="get" class="flex flex-col md:flex-row gap-3 mb-6 bg-base-100 p-4 rounded-xl shadow-sm">
-    <input
-        type="text"
-        name="q"
-        value="{{ search_query }}"
-        placeholder="Search by name, code, or serial number..."
-        class="input input-bordered w-full md:max-w-sm"
-    >
+    <input type="text" name="q" value="{{ search_query }}" placeholder="Search by name, code, or serial number..."
+        class="input input-bordered w-full md:max-w-sm">
     <select name="status" class="select select-bordered w-full md:max-w-xs">
         <option value="">All Statuses</option>
         {% for value, label in status_choices %}
-            <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
+        <option value="{{ value }}" {% if status_filter == value %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
     </select>
     <button type="submit" class="btn btn-primary">Search</button>
     {% if search_query or status_filter %}
-        <a href="{% url 'equipment:equipment_list' %}" class="btn btn-ghost">Clear</a>
+    <a href="{% url 'equipment:equipment_list' %}" class="btn btn-ghost">Clear</a>
     {% endif %}
 </form>
 
@@ -72,21 +63,23 @@
                 <td>{{ item.brand|default:"-" }}</td>
                 <td>
                     {% if item.current_status == 'AVAILABLE' %}
-                        <span class="badge badge-success gap-1">Available</span>
+                    <span class="badge badge-success gap-1">Available</span>
                     {% elif item.current_status == 'ALLOCATED' %}
-                        <span class="badge badge-info gap-1">Allocated</span>
+                    <span class="badge badge-info gap-1">Allocated</span>
                     {% elif item.current_status == 'UNDER_MAINTENANCE' %}
-                        <span class="badge badge-warning gap-1">Under Maintenance</span>
+                    <span class="badge badge-warning gap-1">Under Maintenance</span>
                     {% elif item.current_status == 'FAULTY' %}
-                        <span class="badge badge-error gap-1">Faulty</span>
+                    <span class="badge badge-error gap-1">Faulty</span>
                     {% else %}
-                        <span class="badge badge-neutral gap-1">Decommissioned</span>
+                    <span class="badge badge-neutral gap-1">Decommissioned</span>
                     {% endif %}
                 </td>
                 <td>{{ item.next_calibration_due|default:"-" }}</td>
                 <td class="text-right">
-                    <a href="{% url 'equipment:equipment_edit' item.pk %}" class="btn btn-xs btn-outline btn-info mr-1">Edit</a>
-                    <a href="{% url 'equipment:equipment_delete' item.pk %}" class="btn btn-xs btn-outline btn-error">Delete</a>
+                    <div class="flex gap-2 justify-end">
+                        <a href="..." class="btn btn-xs btn-outline btn-info">Edit</a>
+                        <a href="..." class="btn btn-xs btn-outline btn-error">Delete</a>
+                    </div>
                 </td>
             </tr>
             {% empty %}

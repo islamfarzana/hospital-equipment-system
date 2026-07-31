@@ -6,39 +6,41 @@
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">Reports</span>
     </div>
-    <div class="flex-none gap-2">
-        <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
-        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
-    </div>
 </div>
 {% endblock %}
 
 {% block content %}
 <h2 class="text-2xl font-bold mb-6">Available Reports</h2>
 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <a href="{% url 'reports:equipment_inventory' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
-        <h3 class="font-semibold text-lg">Equipment Inventory</h3>
-        <p class="text-sm text-base-content/60">Full list of all equipment</p>
+    <a href="{% url 'reports:equipment_inventory' %}"
+        class="card bg-primary text-primary-content shadow-sm hover:shadow-md hover:scale-105 transition p-6">
+        <h3 class="font-semibold text-lg">📋 Equipment Inventory</h3>
+        <p class="text-sm opacity-80">Full list of all equipment</p>
     </a>
-    <a href="{% url 'reports:equipment_by_department' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
-        <h3 class="font-semibold text-lg">Equipment by Department</h3>
-        <p class="text-sm text-base-content/60">Currently allocated equipment per ward</p>
+    <a href="{% url 'reports:equipment_by_department' %}"
+        class="card bg-info text-info-content shadow-sm hover:shadow-md hover:scale-105 transition p-6">
+        <h3 class="font-semibold text-lg">🏢 Equipment by Department</h3>
+        <p class="text-sm opacity-80">Currently allocated equipment per ward</p>
     </a>
-    <a href="{% url 'reports:maintenance_costs' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
-        <h3 class="font-semibold text-lg">Maintenance & Calibration Costs</h3>
-        <p class="text-sm text-base-content/60">All maintenance records and costs</p>
+    <a href="{% url 'reports:maintenance_costs' %}"
+        class="card bg-warning text-warning-content shadow-sm hover:shadow-md hover:scale-105 transition p-6">
+        <h3 class="font-semibold text-lg">🔧 Maintenance & Calibration Costs</h3>
+        <p class="text-sm opacity-80">All maintenance records and costs</p>
     </a>
-    <a href="{% url 'reports:allocation_history' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
-        <h3 class="font-semibold text-lg">Equipment Allocation History</h3>
-        <p class="text-sm text-base-content/60">Full allocation/return history</p>
+    <a href="{% url 'reports:allocation_history' %}"
+        class="card bg-accent text-accent-content shadow-sm hover:shadow-md hover:scale-105 transition p-6">
+        <h3 class="font-semibold text-lg">🔄 Equipment Allocation History</h3>
+        <p class="text-sm opacity-80">Full allocation/return history</p>
     </a>
-    <a href="{% url 'reports:faulty_decommissioned' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
-        <h3 class="font-semibold text-lg">Faulty/Decommissioned Equipment</h3>
-        <p class="text-sm text-base-content/60">Equipment needing attention</p>
+    <a href="{% url 'reports:faulty_decommissioned' %}"
+        class="card bg-error text-error-content shadow-sm hover:shadow-md hover:scale-105 transition p-6">
+        <h3 class="font-semibold text-lg">⚠️ Faulty/Decommissioned Equipment</h3>
+        <p class="text-sm opacity-80">Equipment needing attention</p>
     </a>
-    <a href="{% url 'reports:calibration_due' %}" class="card bg-base-100 shadow-sm hover:shadow-md transition p-6">
-        <h3 class="font-semibold text-lg">Calibration Due Report</h3>
-        <p class="text-sm text-base-content/60">Equipment due for calibration soon</p>
+    <a href="{% url 'reports:calibration_due' %}"
+        class="card bg-secondary text-secondary-content shadow-sm hover:shadow-md hover:scale-105 transition p-6">
+        <h3 class="font-semibold text-lg">📅 Calibration Due Report</h3>
+        <p class="text-sm opacity-80">Equipment due for calibration soon</p>
     </a>
 </div>
 {% endblock %}

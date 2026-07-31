@@ -6,16 +6,6 @@
     <div class="flex-1">
         <span class="text-xl font-bold text-primary">Staff Requests</span>
     </div>
-    <div class="flex-none gap-2">
-        {% if request.user.role == 'ADMIN' %}
-            <a href="{% url 'dashboard:admin_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
-        {% elif request.user.role == 'BIOMEDICAL_OFFICER' %}
-            <a href="{% url 'dashboard:biomedical_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
-        {% else %}
-            <a href="{% url 'dashboard:ward_staff_dashboard' %}" class="btn btn-sm btn-ghost">Dashboard</a>
-        {% endif %}
-        <a href="{% url 'accounts:logout' %}" class="btn btn-sm btn-outline">Logout</a>
-    </div>
 </div>
 {% endblock %}
 
@@ -35,6 +25,22 @@
             <span>✅ {{ message }}</span>
         </div>
     {% endfor %}
+{% endif %}
+
+{% if request.user.role != 'WARD_STAFF' %}
+<form method="get" class="flex gap-3 mb-6 bg-base-100 p-4 rounded-xl shadow-sm">
+    <input
+        type="text"
+        name="q"
+        value="{{ search_query }}"
+        placeholder="Search by staff name or description..."
+        class="input input-bordered w-full max-w-sm"
+    >
+    <button type="submit" class="btn btn-primary">Search</button>
+    {% if search_query %}
+        <a href="{% url 'requests_app:request_list' %}" class="btn btn-ghost">Clear</a>
+    {% endif %}
+</form>
 {% endif %}
 
 <div class="overflow-x-auto bg-base-100 rounded-xl shadow-sm">
