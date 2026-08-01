@@ -36,6 +36,7 @@ Hospitals often manage equipment like ventilators, infusion pumps, and monitors 
 ### Business Rule Validation
 Real-time validation prevents allocating equipment that is faulty or under maintenance:
 ![Validation Error](screenshots/equipment-form-error.png)
+
 ### Reports
 ![Reports](screenshots/reports.png)
 
@@ -46,7 +47,7 @@ Real-time validation prevents allocating equipment that is faulty or under maint
 
 - **Backend:** Django 6.0
 - **Frontend:** Tailwind CSS + DaisyUI
-- **Database:** SQLite (development)
+- **Database:** PostgreSQL
 - **Auth:** Django's built-in auth system with a custom User model (role-based)
 
 ## 🚀 Setup & Installation
@@ -68,35 +69,48 @@ Real-time validation prevents allocating equipment that is faulty or under maint
    pip install -r requirements.txt
 ```
 
-4. **Set up environment variables**
+4. **Set up PostgreSQL database**
+
+   Create a PostgreSQL database:
+```bash
+   createdb -U postgres your_db_name
+```
+
+5. **Set up environment variables**
 
    Create a `.env` file in the project root:
 
-   SECRET_KEY=your-secret-key-here
+SECRET_KEY=your-secret-key-here
 DEBUG=True
 ALLOWED_HOSTS=127.0.0.1,localhost
+DB_NAME=your_db_name
+DB_USER=postgres
+DB_PASSWORD=your_password
+DB_HOST=localhost
+DB_PORT=5432
 
-5. **Run migrations**
+
+6. **Run migrations**
 ```bash
    python manage.py migrate
 ```
 
-6. **Create a superuser**
+7. **Create a superuser**
 ```bash
    python manage.py createsuperuser
 ```
 
-7. **Start Tailwind CSS build (in a separate terminal)**
+8. **Start Tailwind CSS build (in a separate terminal)**
 ```bash
    python manage.py tailwind start
 ```
 
-8. **Run the development server**
+9. **Run the development server**
 ```bash
    python manage.py runserver
 ```
 
-9. Visit `http://127.0.0.1:8000/accounts/login/` to log in.
+10. Visit `http://127.0.0.1:8000/accounts/login/` to log in.
 
 ## 👥 User Roles
 
@@ -118,6 +132,7 @@ requests_app/ Staff equipment requests
 dashboard/ Role-based dashboards
 reports/ Reports + CSV export
 templates/ HTML templates (Tailwind/DaisyUI)
+
 
 ## 🔑 Business Rules Implemented
 
