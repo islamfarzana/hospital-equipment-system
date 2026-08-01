@@ -19,6 +19,29 @@ Hospitals often manage equipment like ventilators, infusion pumps, and monitors 
 - **Search & filtering** — Across wards, equipment, allocations, maintenance, staff, and requests
 - **Data validation** — Unique equipment codes/serial numbers, phone number format validation, business rule enforcement
 
+## 📸 Screenshots
+
+### Login Page
+![Login Page](screenshots/login.png)
+
+### Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+### Equipment Management
+![Equipment List](screenshots/equipment-list.png)
+
+### Equipment Form
+![Equipment Form](screenshots/equipment-form.png)
+
+### Business Rule Validation
+Real-time validation prevents allocating equipment that is faulty or under maintenance:
+![Validation Error](screenshots/equipment-form-error.png)
+### Reports
+![Reports](screenshots/reports.png)
+
+### Ward Staff Dashboard
+![Ward Staff Dashboard](screenshots/ward-staff-dashboard.png)
+
 ## 🛠️ Tech Stack
 
 - **Backend:** Django 6.0
